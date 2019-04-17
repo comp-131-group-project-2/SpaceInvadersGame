@@ -31,7 +31,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private int frame = 0;
 
-    // FIXME list your game objects here
+    // FIXME list your game objects her
 
     /* Constructor for a Space Invaders game
      */
