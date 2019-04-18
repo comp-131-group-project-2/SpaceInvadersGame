@@ -3,12 +3,12 @@ import java.awt.Graphics;
 
 public class GraphicsObject {
 
-    double x;
-    double y;
+    int x;
+    int y;
     double speed_x;
     double speed_y;
 
-    public GraphicsObject(double x, double y) {
+    public GraphicsObject(int x, int y) {
         this.x = x;
         this.y = y;
         this.speed_x = 0;
