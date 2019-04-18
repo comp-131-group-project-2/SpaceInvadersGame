@@ -32,13 +32,16 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private int frame = 0;
 
     // FIXME list your game objects her
+    // create a list of aliens with a loop
+    // remove aliens if they are hit using the update function
+    //
 
     /* Constructor for a Space Invaders game
      */
     public SpaceInvaders() {
         // fix the window size and background color
-        this.canvasWidth = 600;
-        this.canvasHeight = 400;
+        this.canvasWidth = 1280;
+        this.canvasHeight = 720;
         this.backgroundColor = Color.WHITE;
         setPreferredSize(new Dimension(this.canvasWidth, this.canvasHeight));
 
