@@ -31,10 +31,11 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private int frame = 0;
 
+    ArrayList<GraphicsObject> objects = new ArrayList();
+
     // FIXME list your game objects her
     // create a list of aliens with a loop
     // remove aliens if they are hit using the update function
-    //
 
     /* Constructor for a Space Invaders game
      */
@@ -49,6 +50,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         this.timer = new Timer(msPerFrame, this);
 
         // FIXME initialize your game objects
+        this.objects.add(new Biplane(100,100));
     }
 
     /* Start the game
@@ -105,6 +107,10 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         } else {
             paintGameScreen(g);
         }
+    }
+
+    public void addObject(GraphicsObject obj) {
+        this.objects.add(obj);
     }
 
     /* Clear the canvas
@@ -181,7 +187,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintGameScreen(Graphics g) {
-        // FIXME draw game objects here
+        for (GraphicsObject obj : this.objects) {
+            obj.draw(g);
+        }
     }
 
     /* Paint the screen when the player has won
