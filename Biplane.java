@@ -13,7 +13,7 @@ public class Biplane extends GraphicsObject {
     public Biplane(int x, int y) {
         super(x, y);
         try {
-            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/c012f778-61ff-11e9-a6bf-7b0574b7a713.gif");
+            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/5b30d8a6-6204-11e9-bf18-ad8ec1d757c3.gif");
             image = ImageIO.read(url);
         } catch (IOException e) {
             e.printStackTrace();
@@ -22,7 +22,7 @@ public class Biplane extends GraphicsObject {
 
     public void draw(Graphics g) {
         if (image != null) {
-            g.drawImage(image, 0, 0, null);
+            g.drawImage(image, this.x, this.y, null);
         }
     }
 }
