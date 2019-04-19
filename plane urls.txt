@@ -1,0 +1,8 @@
+FACING RIGHT: (resolution 40x40px)
+https://piskel-imgstore-b.appspot.com/img/ee436a73-6253-11e9-ad56-1b2aa63331cb.gif
+
+FACING LEFT: (resolution 40x40px)
+https://piskel-imgstore-b.appspot.com/img/2e12b41e-6254-11e9-8c47-1b2aa63331cb.gif
+
+FACING DOWN: (resolution 40x32px)
+https://piskel-imgstore-b.appspot.com/img/5b30d8a6-6204-11e9-bf18-ad8ec1d757c3.gif
