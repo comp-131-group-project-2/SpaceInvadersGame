@@ -5,8 +5,8 @@ public class GraphicsObject {
 
     int x;
     int y;
-    double speed_x;
-    double speed_y;
+    int speed_x;
+    int speed_y;
 
     public GraphicsObject(int x, int y) {
         this.x = x;

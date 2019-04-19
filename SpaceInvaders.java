@@ -52,9 +52,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         // FIXME initialize your game objects
         // adding the grid of biplanes
         for (int i = 0; i <= 10; i++) {
-            // i*50 is x
+            // i*50 is x separation
             for (int j = 0; j <= 4; j++) {
-                // j * 50 is y
+                // j * 50 is y separation
                 this.objects.add(new Biplane(i * 50,j * 50));
             }
         }
@@ -166,7 +166,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     /* Update the game objects
      */
     private void update() {
-        // FIXME update game objects here
+        for (GraphicsObject obj : this.objects) {
+            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+        }
     }
 
     /* Check if the player has lost the game
