@@ -31,9 +31,10 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private int frame = 0;
 
-    ArrayList<GraphicsObject> objects = new ArrayList();
+    public ArrayList<GraphicsObject> enemies = new ArrayList();
+    public ArrayList<GraphicsObject> enemyProjectiles = new ArrayList();
 
-    // FIXME list your game objects her
+    // FIXME list your game objects here
     // create a list of aliens with a loop
     // remove aliens if they are hit using the update function
 
@@ -51,12 +52,19 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
         // FIXME initialize your game objects
         // adding the grid of biplanes
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 8; i++) {
             // i*50 is x separation
             for (int j = 0; j <= 4; j++) {
                 // j * 50 is y separation
-                this.objects.add(new Biplane(i * 50,j * 50));
+                this.enemies.add(new Biplane(i * 50,j * 50));
             }
+        }
+        for (int i = 0; i <= 3; i++) {
+            this.enemyProjectiles.add(new BiplaneProjectile(
+                    // x
+                    (enemies.get(((int)(Math.random()* enemies.size())))).x,
+                    // y
+                    (enemies.get(((int)(Math.random() * enemies.size())))).y));
         }
     }
 
@@ -166,8 +174,15 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     /* Update the game objects
      */
     private void update() {
-        for (GraphicsObject obj : this.objects) {
+        for (GraphicsObject obj : this.enemies) {
             obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+        }
+        for (GraphicsObject obj : this.enemyProjectiles) {
+            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+            if (obj.y + obj.getHeight() > canvasHeight) {
+                obj.x = enemies.get(((int)(Math.random()* enemies.size()))).x;
+                obj.y = enemies.get(((int)(Math.random() * enemies.size()))).y;
+            }
         }
     }
 
@@ -192,7 +207,10 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintGameScreen(Graphics g) {
-        for (GraphicsObject obj : this.objects) {
+        for (GraphicsObject obj : this.enemies) {
+            obj.draw(g);
+        }
+        for (GraphicsObject obj : this.enemyProjectiles) {
             obj.draw(g);
         }
     }
