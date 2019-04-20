@@ -1,4 +1,7 @@
 // utility
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+//lists
+import java.util.List;
+
 public class SpaceInvaders extends JPanel implements ActionListener, KeyListener, Runnable {
 
     private final int canvasWidth;
@@ -33,6 +39,11 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
     public ArrayList<GraphicsObject> enemies = new ArrayList();
     public ArrayList<GraphicsObject> enemyProjectiles = new ArrayList();
+    public GraphicsObject player;
+
+    //hitbox for player
+    public ArrayList<Integer> x_hitbox = new ArrayList<>();
+    public ArrayList<Integer> y_hitbox = new ArrayList<>();
 
     // FIXME list your game objects here
     // create a list of aliens with a loop
@@ -51,7 +62,8 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         this.timer = new Timer(msPerFrame, this);
 
         // FIXME initialize your game objects
-        // adding the grid of biplanes
+
+        // initialize the grid of biplanes
         for (int i = 0; i <= 8; i++) {
             // i*50 is x separation
             for (int j = 0; j <= 4; j++) {
@@ -59,12 +71,27 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                 this.enemies.add(new Biplane(i * 50,j * 50));
             }
         }
+        // initialize the projectiles
         for (int i = 0; i <= 3; i++) {
             this.enemyProjectiles.add(new BiplaneProjectile(
                     // x
                     (enemies.get(((int)(Math.random()* enemies.size())))).x,
                     // y
                     (enemies.get(((int)(Math.random() * enemies.size())))).y));
+        }
+        //this.enemyProjectiles.add(new BiplaneProjectile(player.x - 5, player.y - 100));
+
+        // initialize player
+        player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
+
+        // initialize hitbox
+        for (int X = player.x; X <= player.x + player.getWidth(); X++) {
+            x_hitbox.add(X);
+            System.out.println("X" + X);
+        }
+        for (int Y = player.y; Y <= player.y + player.getHeight(); Y++) {
+            y_hitbox.add(Y);
+            System.out.println("Y" + Y);
         }
     }
 
@@ -174,9 +201,15 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     /* Update the game objects
      */
     private void update() {
+        //player
+        player.update(this.canvasWidth,this.canvasHeight,this.frame);
+
+        //enemies
         for (GraphicsObject obj : this.enemies) {
             obj.update(this.canvasWidth, this.canvasHeight, this.frame);
         }
+
+        //enemy projectiles
         for (GraphicsObject obj : this.enemyProjectiles) {
             obj.update(this.canvasWidth, this.canvasHeight, this.frame);
             if (obj.y + obj.getHeight() > canvasHeight) {
@@ -191,7 +224,17 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @returns  true if the player has lost, false otherwise
      */
     private boolean hasLostGame() {
-        return false; // FIXME delete this when ready
+        for (GraphicsObject obj : this.enemyProjectiles) {
+            // x_hitbox
+            for (int player_x : x_hitbox) {
+                // detects if player model gets hit by projectile
+                if (obj.x  + obj.getWidth() == player_x || obj.x == player_x) {
+                    System.out.println("reached at " + player_x + " ");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /* Check if the player has won the game
@@ -207,12 +250,19 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintGameScreen(Graphics g) {
+        //player
+        player.draw(g);
+
+        //enemies
         for (GraphicsObject obj : this.enemies) {
             obj.draw(g);
         }
+
+        //enemy projectiles
         for (GraphicsObject obj : this.enemyProjectiles) {
             obj.draw(g);
         }
+
     }
 
     /* Paint the screen when the player has won
