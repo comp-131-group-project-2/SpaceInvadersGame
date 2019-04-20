@@ -5,27 +5,31 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-public class Biplane extends GraphicsObject {
+public class BiplaneProjectile extends GraphicsObject {
 
     //image size is 40x32px
     Image image;
     int width;
     int height;
 
-    public Biplane(int x, int y) {
+    public BiplaneProjectile(int x, int y) {
         super(x, y);
-        this.width = 40;
-        this.height = 32;
+        this.width = 8;
+        this.height = 2;
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
-        super.speed_x = 7;
-        super.speed_y = 0;
+        super.speed_x = 0;
+        super.speed_y = 10;
         try {
-            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/5b30d8a6-6204-11e9-bf18-ad8ec1d757c3.gif");
+            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/68c54ed9-6341-11e9-b33c-47f6622059b4.gif");
             image = ImageIO.read(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void draw(Graphics g) {
@@ -35,11 +39,7 @@ public class Biplane extends GraphicsObject {
     }
 
     public void update(int pic_width, int pic_height, int frame) {
-        // make biplanes bounce off the side of the window
-        if (this.x < 0 || this.x + this.width > pic_width) {
-            super.speed_x = -super.speed_x;
-            this.y += 32;
-        }
+        //System.out.println(super.speed_x);
         // let the superclass' update function handle the actual change to x and y
         super.update(pic_width, pic_height, frame);
     }
