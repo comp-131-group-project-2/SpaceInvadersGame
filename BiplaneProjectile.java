@@ -33,14 +33,5 @@ public class BiplaneProjectile extends GraphicsObject {
     }
 
     public void draw(Graphics g) {
-        if (image != null) {
-            g.drawImage(image, this.x, this.y, null);
-        }
-    }
-
-    public void update(int pic_width, int pic_height, int frame) {
-        //System.out.println(super.speed_x);
-        // let the superclass' update function handle the actual change to x and y
-        super.update(pic_width, pic_height, frame);
     }
 }
