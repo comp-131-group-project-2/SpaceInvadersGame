@@ -14,3 +14,10 @@ PLAYER CHARACTER:
 
 FACING UP; (resolution 40x32px)
 https://piskel-imgstore-b.appspot.com/img/c42eec91-6266-11e9-881b-7b261314d9a0.gif
+
+
+PLAYER EXPLOSION:
+https://piskel-imgstore-b.appspot.com/img/ec49355e-63ea-11e9-9c3e-5b22e230d208.gif
+
+ENEMY EXPLOSION:
+https://piskel-imgstore-b.appspot.com/img/005f9b23-63ec-11e9-8a2d-b9a2ac6a6e50.gif
