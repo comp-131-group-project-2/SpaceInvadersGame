@@ -112,23 +112,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
 
         // debug bullet
-        enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
-
-        // initialize hitbox
-        for (int X = player.x; X <= player.x + player.getWidth(); X++) {
-            x_hitbox.add(X);
-            System.out.println("X " + X);
-        }
-        for (int Y = player.y; Y <= player.y + player.getHeight(); Y++) {
-            y_hitbox.add(Y);
-            System.out.println("Y " + Y);
-        }
-
-        // initialize player
-        player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
-
-        // debug bullet
-        enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+        // enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
 
         // initialize hitbox
         for (int X = player.x; X <= player.x + player.getWidth(); X++) {

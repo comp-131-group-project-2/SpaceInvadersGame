@@ -20,9 +20,6 @@ public class GraphicsObject {
     }
     public String getName() {
         return "GraphicsObject";
-
-    public int getWidth() {
-        return 0;
     }
     public int getWidth() {
         return 0;
