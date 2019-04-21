@@ -37,6 +37,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private Timer timer;
     private int frame = 0;
 
+    //checks if game is running
+    public boolean is_running;
+
     public ArrayList<GraphicsObject> enemies = new ArrayList();
     public ArrayList<GraphicsObject> enemyProjectiles = new ArrayList();
     public ArrayList<GraphicsObject> youWin = new ArrayList();
@@ -60,11 +63,34 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         this.backgroundColor = new Color(0, 225, 255, 183);
         setPreferredSize(new Dimension(this.canvasWidth, this.canvasHeight));
 
+        //says game is running
+        is_running = true;
+
         // set the drawing timer
         this.timer = new Timer(msPerFrame, this);
 
         // FIXME initialize your game objects
+        // initialize game over screen
+        this.gameOver.add(new GameOver(200, 100));
 
+        for (int i = 0; i <= 25; i++) {
+            this.gameOver.add(new BiplaneRight(i * 50, 10));
+        }
+        for (int i = 0; i <= 25; i++) {
+            this.gameOver.add(new BiplaneLeft(i * 50, 60));
+        }
+
+        // initialize you win screen
+        this.youWin.add(new YouWin(100, 50));
+
+        for (int i = 0; i <= 13; i++) {
+            this.youWin.add(new WinPlane(180, i * 50));
+        }
+        for (int i = 0; i <= 13; i++) {
+            this.youWin.add(new WinPlane(1100, i * 50));
+        }
+
+        // GAMESTATE
         // initialize the grid of biplanes
         for (int i = 0; i <= 8; i++) {
             // i*50 is x separation
@@ -80,24 +106,6 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                     (enemies.get(((int) (Math.random() * enemies.size())))).x,
                     // y
                     (enemies.get(((int) (Math.random() * enemies.size())))).y));
-        }
-
-        this.gameOver.add(new GameOver(200, 100));
-
-        for (int i = 0; i <= 25; i++) {
-            this.gameOver.add(new BiplaneRight(i * 50, 10));
-        }
-        for (int i = 0; i <= 25; i++) {
-            this.gameOver.add(new BiplaneLeft(i * 50, 60));
-        }
-
-        this.youWin.add(new YouWin(100, 50));
-
-        for (int i = 0; i <= 13; i++) {
-            this.youWin.add(new WinPlane(180, i * 50));
-        }
-        for (int i = 0; i <= 13; i++) {
-            this.youWin.add(new WinPlane(1100, i * 50));
         }
 
         // initialize player
@@ -168,7 +176,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             paintWinScreen(g);
         } else if (hasLostGame()) {
             paintLoseScreen(g);
-        } else {
+        } else if (is_running == true) {
             paintGameScreen(g);
         }
     }
@@ -223,42 +231,57 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     /* Update the game objects
      */
     private void update() {
-        //player
-        player.update(this.canvasWidth,this.canvasHeight,this.frame);
+        System.out.println("is running: " + is_running);
+        if (is_running == true) {
 
-        //enemies
-        for (GraphicsObject obj : this.enemies) {
-            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
-        }
+            //player
+            player.update(this.canvasWidth, this.canvasHeight, this.frame);
 
-        //enemy projectiles
-        for (GraphicsObject obj : this.enemyProjectiles) {
-            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
-            if (obj.y + obj.getHeight() > canvasHeight) {
-                obj.x = enemies.get(((int) (Math.random() * enemies.size()))).x;
-                obj.y = enemies.get(((int) (Math.random() * enemies.size()))).y;
+            //enemies
+            for (GraphicsObject obj : this.enemies) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
             }
-        }
-        for (GraphicsObject obj : this.gameOver) {
-            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
-            if (obj.getName().equals("BiplaneRight")) {
-                if (obj.x >= canvasWidth) {
-                    obj.x = 0;
+
+            //enemy projectiles
+            for (GraphicsObject obj : this.enemyProjectiles) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+                if (obj.y + obj.getHeight() > canvasHeight) {
+                    obj.x = enemies.get(((int) (Math.random() * enemies.size()))).x;
+                    obj.y = enemies.get(((int) (Math.random() * enemies.size()))).y;
                 }
             }
-            if (obj.getName().equals("BiplaneLeft")) {
-                if (obj.x <= 0) {
-                    obj.x = canvasWidth;
+        }
+
+        // when player loses game
+
+        else if (hasLostGame()) {
+            is_running = false;
+            for (GraphicsObject obj : this.gameOver) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+                if (obj.getName().equals("BiplaneRight")) {
+                    if (obj.x >= canvasWidth) {
+                        obj.x = 0;
+                    }
+                }
+                if (obj.getName().equals("BiplaneLeft")) {
+                    if (obj.x <= 0) {
+                        obj.x = canvasWidth;
                     }
                 }
             }
-        for (GraphicsObject obj : this.youWin) {
-            obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+        }
+
+        //when player wins game
+        else if (hasWonGame()) {
+            is_running = false;
+            for (GraphicsObject obj : this.youWin) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
                 if (obj.y <= 0) {
                     obj.y = canvasHeight;
                 }
             }
         }
+    }
 
     /* Check if the player has lost the game
      *
@@ -310,17 +333,19 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintGameScreen(Graphics g) {
-        //player
-        player.draw(g);
+        if (is_running == true) {
+            //player
+            player.draw(g);
 
-        //enemies
-        for (GraphicsObject obj : this.enemies) {
-            obj.draw(g);
-        }
+            //enemies
+            for (GraphicsObject obj : this.enemies) {
+                obj.draw(g);
+            }
 
-        //enemy projectiles
-        for (GraphicsObject obj : this.enemyProjectiles) {
-            obj.draw(g);
+            //enemy projectiles
+            for (GraphicsObject obj : this.enemyProjectiles) {
+                obj.draw(g);
+            }
         }
     }
 
@@ -329,6 +354,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintWinScreen(Graphics g) {
+        is_running = false;
         for (GraphicsObject obj : this.youWin) {
             obj.draw(g);
         }
@@ -339,6 +365,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @param g The Graphics for the JPanel
      */
     private void paintLoseScreen(Graphics g) {
+        is_running = false;
         for (GraphicsObject obj : this.gameOver) {
             obj.draw(g);
         }
