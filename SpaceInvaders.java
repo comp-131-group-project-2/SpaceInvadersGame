@@ -79,19 +79,21 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                     // y
                     (enemies.get(((int)(Math.random() * enemies.size())))).y));
         }
-        //this.enemyProjectiles.add(new BiplaneProjectile(player.x - 5, player.y - 100));
 
         // initialize player
         player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
 
+        // debug bullet
+        enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+
         // initialize hitbox
         for (int X = player.x; X <= player.x + player.getWidth(); X++) {
             x_hitbox.add(X);
-            System.out.println("X" + X);
+            System.out.println("X " + X);
         }
         for (int Y = player.y; Y <= player.y + player.getHeight(); Y++) {
             y_hitbox.add(Y);
-            System.out.println("Y" + Y);
+            System.out.println("Y " + Y);
         }
     }
 
@@ -225,13 +227,32 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     private boolean hasLostGame() {
         for (GraphicsObject obj : this.enemyProjectiles) {
+            boolean projAtX = false;
+            boolean projAtY = false;
+            int debug_X = 0;
+            int debug_y = 0;
             // x_hitbox
             for (int player_x : x_hitbox) {
                 // detects if player model gets hit by projectile
                 if (obj.x  + obj.getWidth() == player_x || obj.x == player_x) {
-                    System.out.println("reached at " + player_x + " ");
-                    return true;
+                    //System.out.println("reached at x: " + player_x);
+                    debug_X = obj.x;
+                    projAtX = true;
                 }
+            }
+            // y_hitbox
+            for (int player_y : y_hitbox) {
+                // detects if player model gets hit by projectile
+                if (obj.y  + obj.getWidth() == player_y || obj.y == player_y) {
+                    //System.out.println("reached at y: " + player_y);
+                    debug_y = obj.y;
+                    projAtY = true;
+                }
+            }
+            if (projAtX == true && projAtY == true) {
+                System.out.println("reached at x: " + debug_X);
+                System.out.println("reached at y: " + debug_y);
+                return true;
             }
         }
         return false;
@@ -262,7 +283,6 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         for (GraphicsObject obj : this.enemyProjectiles) {
             obj.draw(g);
         }
-
     }
 
     /* Paint the screen when the player has won
