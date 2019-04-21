@@ -30,17 +30,6 @@ public class Biplane extends GraphicsObject {
 
     public void draw(Graphics g) {
         if (image != null) {
-            g.drawImage(image, this.x, this.y, null);
         }
-    }
-
-    public void update(int pic_width, int pic_height, int frame) {
-        // make biplanes bounce off the side of the window
-        if (this.x < 0 || this.x + this.width > pic_width) {
-            super.speed_x = -super.speed_x;
-            this.y += 32;
-        }
-        // let the superclass' update function handle the actual change to x and y
-        super.update(pic_width, pic_height, frame);
     }
 }
