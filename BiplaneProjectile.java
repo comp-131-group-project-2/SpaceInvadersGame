@@ -31,6 +31,7 @@ public class BiplaneProjectile extends GraphicsObject {
     public int getHeight() {
         return height;
     }
+    public int getWidth() { return width; }
 
     public void draw(Graphics g) {
     }
