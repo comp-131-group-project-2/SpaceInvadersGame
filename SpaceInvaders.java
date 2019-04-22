@@ -3,6 +3,7 @@ import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 // graphics
@@ -41,7 +42,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     public boolean is_running;
 
     //lists of all the objects
-    public ArrayList<GraphicsObject> enemies = new ArrayList();
+    public List<GraphicsObject> enemies = new ArrayList();
     public ArrayList<GraphicsObject> enemyProjectiles = new ArrayList();
     public ArrayList<GraphicsObject> youWin = new ArrayList();
     public ArrayList<GraphicsObject> gameOver = new ArrayList();
@@ -101,22 +102,26 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         for (int i = 0; i <= 3; i++) {
             this.enemyProjectiles.add(new BiplaneProjectile(
                     // x
-                    (enemies.get(((int) (Math.random() * enemies.size())))).x,
+                    (enemies.get(((int)(Math.random()*enemies.size()))).x),
                     // y
-                    (enemies.get(((int) (Math.random() * enemies.size())))).y));
+                    (enemies.get(((int)(Math.random()*enemies.size())))).y));
         }
 
         // initialize player
         player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
 
         // initialize player's projectiles
+        /*
         for (int i = 0; i <= 10; i++) {
             //makes bullets initialized offscreen
             this.playerProjectiles.add(new PlayerProjectile(canvasWidth, canvasHeight));
-        }
+        } */
 
-        // debug bullet
-        enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+        // debug kill player bullet
+        //enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+
+        // debug kill enemy bullet
+        playerProjectiles.add(new PlayerProjectile(400, 400));
     }
 
     /* Start the game
@@ -220,7 +225,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             player.moveRight();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            
+
         }
     }
 
@@ -236,15 +241,21 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
             //enemies
             for (GraphicsObject obj : this.enemies) {
-                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+                if (obj.isAlive()) {
+                    obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+                }
             }
 
             //enemy projectiles
             for (GraphicsObject obj : this.enemyProjectiles) {
                 obj.update(this.canvasWidth, this.canvasHeight, this.frame);
-                if (obj.y + obj.getHeight() > canvasHeight) {
-                    obj.x = enemies.get(((int) (Math.random() * enemies.size()))).x;
-                    obj.y = enemies.get(((int) (Math.random() * enemies.size()))).y;
+                for (GraphicsObject enemy : this.enemies) {
+                    if (enemy.isAlive()) {
+                        if (obj.y + obj.getHeight() > canvasHeight) {
+                            obj.x = enemies.get(((int) (Math.random() * enemies.size()))).x;
+                            obj.y = enemies.get(((int) (Math.random() * enemies.size()))).y;
+                        }
+                    }
                 }
             }
 
@@ -256,12 +267,16 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                     obj.x = canvasWidth;
                     obj.y = canvasHeight;
                 }
+                for (GraphicsObject enemy : this.enemies) {
+                    if (enemy.getBoundingBox().contains(obj.x, obj.y)) {
+                        enemy.setAliveStatus(false);
+                        //EnemyisHit(obj);
+                    }
+                }
             }
-
         }
 
         // when player loses game
-
         else if (hasLostGame()) {
             is_running = false;
             for (GraphicsObject obj : this.gameOver) {
@@ -309,12 +324,14 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @returns  true if the player has won, false otherwise
      */
     private boolean hasWonGame() {
-        if (this.enemies.size() == 0) {
-            return true;
+        for (GraphicsObject enemy : enemies) {
+            if (enemy.isAlive()) {
+                return false;
+            } else {
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /* Paint the screen during normal gameplay
@@ -328,7 +345,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
             //enemies
             for (GraphicsObject obj : this.enemies) {
-                obj.draw(g);
+                if (obj.isAlive()) {
+                    obj.draw(g);
+                }
             }
 
             //enemy projectiles
@@ -364,6 +383,17 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             obj.draw(g);
         }
     }
+
+    /*
+    public void EnemyisHit(GraphicsObject obj) {
+        while (itr.hasNext())
+        {
+            GraphicsObject enemy = (GraphicsObject)itr.next();
+            if (enemy.getBoundingBox().contains(obj.x, obj.y)) {
+                itr.remove();
+            }
+        }
+    }*/
 
     public static void main(String[] args) {
         SpaceInvaders invaders = new SpaceInvaders();

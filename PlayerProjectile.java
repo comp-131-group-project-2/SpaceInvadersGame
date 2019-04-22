@@ -2,6 +2,8 @@ import java.awt.*;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PlayerProjectile extends GraphicsObject {
 

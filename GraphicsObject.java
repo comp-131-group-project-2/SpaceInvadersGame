@@ -15,6 +15,22 @@ public class GraphicsObject {
         this.speed_y = 0;
     }
 
+    public boolean isAlive() {
+        return true;
+    }
+
+    public void setAliveStatus(boolean alive) {
+
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public int getHeight() {
         return 0;
     }
@@ -43,14 +59,6 @@ public class GraphicsObject {
      * @param g The Graphics for the JPanel
      */
     public void draw(Graphics g) {
-    }
-
-    // initializing move right
-    public void moveRight() {
-    }
-
-    // initializing move left
-    public void moveLeft() {
     }
 
     /* Update the object's location based on its speed

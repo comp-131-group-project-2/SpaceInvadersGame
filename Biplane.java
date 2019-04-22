@@ -10,11 +10,13 @@ public class Biplane extends GraphicsObject {
     Image image;
     int width;
     int height;
+    boolean alive;
 
     public Biplane(int x, int y) {
         super(x, y);
         this.width = 40;
         this.height = 32;
+        this.alive = true;
 
         // hitbox
         BoundingBox = new Rectangle(x, y, width, height);
@@ -29,6 +31,23 @@ public class Biplane extends GraphicsObject {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public boolean isAlive() {
+        return this.alive;
+    }
+
+    public void setAliveStatus(boolean alive) {
+        this.alive = alive;
     }
 
     public Rectangle getBoundingBox() { return BoundingBox; }

@@ -30,6 +30,14 @@ public class BiplaneProjectile extends GraphicsObject {
         }
     }
 
+    @Override
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
     public int getHeight() {
         return height;
     }
