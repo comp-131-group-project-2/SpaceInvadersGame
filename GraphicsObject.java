@@ -27,6 +27,13 @@ public class GraphicsObject {
     public Rectangle getBoundingBox() {
         return BoundingBox;
     }
+    // initializing move right
+    public void moveRight() {
+    }
+    // initializing move left
+    public void moveLeft() {
+    }
+
 
     /* Draw the object
      *

@@ -39,12 +39,20 @@ public class Player extends GraphicsObject {
     public int getWidth() {
         return this.width;
     }
-
     public int getHeight() {
         return this.height;
     }
-
     public Rectangle getBoundingBox() { return BoundingBox; }
+    public void moveRight(){
+        if(x < 1235){
+            x += 5;
+        }
+    }
+    public void moveLeft(){
+        if(x > 5){
+            x -= 5;
+        }
+    }
 
     public void update(int pic_width, int pic_height, int frame) {
         // make player stay in the window

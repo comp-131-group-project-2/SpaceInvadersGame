@@ -214,19 +214,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.player.speed_x = -7;
-            if (e.getKeyCode() == KeyEvent.KEY_RELEASED) {
-                this.player.speed_x = 0;
-            }
+            player.moveLeft();
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.player.speed_x = 7;
-            if (e.getKeyCode() == KeyEvent.KEY_RELEASED) {
-                this.player.speed_x = 0;
-            }
+            player.moveRight();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
+            
         }
     }
 
@@ -315,7 +309,12 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @returns  true if the player has won, false otherwise
      */
     private boolean hasWonGame() {
-        return false; // FIXME delete this when ready
+        if (this.enemies.size() == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /* Paint the screen during normal gameplay
