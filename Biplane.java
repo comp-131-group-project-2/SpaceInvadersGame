@@ -15,6 +15,10 @@ public class Biplane extends GraphicsObject {
         super(x, y);
         this.width = 40;
         this.height = 32;
+
+        // hitbox
+        BoundingBox = new Rectangle(x, y, width, height);
+
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
         super.speed_x = 7;
@@ -27,14 +31,16 @@ public class Biplane extends GraphicsObject {
         }
     }
 
+    public Rectangle getBoundingBox() { return BoundingBox; }
+
     public void draw(Graphics g) {
         if (image != null) {
             g.drawImage(image, this.x, this.y, null);
         }
     }
 
+        // make biplanes stay in the window and descend
     public void update(int pic_width, int pic_height, int frame){
-        // make ball bounce off the side of the window
         if (this.x < 0 || this.x + this.width > pic_width) {
             this.speed_x = -this.speed_x;
             this.y += 32;
@@ -42,6 +48,10 @@ public class Biplane extends GraphicsObject {
         if (this.y + this.height > pic_height) {
             //game ends
         }
+
+        // keep biplane's hitbox with biplane as it moves
+        BoundingBox.x = this.x;
+        BoundingBox.y = this.y;
 
         // let the superclass' update function handle the actual change to x and y
         super.update(pic_width, pic_height, frame);

@@ -40,15 +40,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     //checks if game is running
     public boolean is_running;
 
+    //lists of all the objects
     public ArrayList<GraphicsObject> enemies = new ArrayList();
     public ArrayList<GraphicsObject> enemyProjectiles = new ArrayList();
     public ArrayList<GraphicsObject> youWin = new ArrayList();
     public ArrayList<GraphicsObject> gameOver = new ArrayList();
     public GraphicsObject player;
-
-    //hitbox for player
-    public ArrayList<Integer> x_hitbox = new ArrayList<>();
-    public ArrayList<Integer> y_hitbox = new ArrayList<>();
+    public ArrayList<GraphicsObject> playerProjectiles = new ArrayList<>();
 
     // FIXME list your game objects here
     // create a list of aliens with a loop
@@ -99,7 +97,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                 this.enemies.add(new Biplane(i * 50, j * 50));
             }
         }
-        // initialize the projectiles
+        // initialize the enemies' projectiles
         for (int i = 0; i <= 3; i++) {
             this.enemyProjectiles.add(new BiplaneProjectile(
                     // x
@@ -111,18 +109,14 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         // initialize player
         player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
 
-        // debug bullet
-        // enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+        // initialize player's projectiles
+        for (int i = 0; i <= 10; i++) {
+            //makes bullets initialized offscreen
+            this.playerProjectiles.add(new PlayerProjectile(canvasWidth, canvasHeight));
+        }
 
-        // initialize hitbox
-        for (int X = player.x; X <= player.x + player.getWidth(); X++) {
-            x_hitbox.add(X);
-            System.out.println("X " + X);
-        }
-        for (int Y = player.y; Y <= player.y + player.getHeight(); Y++) {
-            y_hitbox.add(Y);
-            System.out.println("Y " + Y);
-        }
+        // debug bullet
+        enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
     }
 
     /* Start the game
@@ -220,18 +214,27 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            // FIXME what happens when left arrow is pressed
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            // FIXME what happens when right arrow is pressed
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            // FIXME what happens when space bar is pressed
+            this.player.speed_x = -7;
+            if (e.getKeyCode() == KeyEvent.KEY_RELEASED) {
+                this.player.speed_x = 0;
+            }
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            this.player.speed_x = 7;
+            if (e.getKeyCode() == KeyEvent.KEY_RELEASED) {
+                this.player.speed_x = 0;
+            }
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
         }
     }
 
     /* Update the game objects
      */
     private void update() {
-        System.out.println("is running: " + is_running);
+        // System.out.println("is running: " + is_running);
+        // while game is running
         if (is_running == true) {
 
             //player
@@ -250,6 +253,17 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                     obj.y = enemies.get(((int) (Math.random() * enemies.size()))).y;
                 }
             }
+
+            //player projectiles
+            for (GraphicsObject obj : this.playerProjectiles) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+                if (obj.y < 0) {
+                    //if bullets exit the screen, hide them off screen
+                    obj.x = canvasWidth;
+                    obj.y = canvasHeight;
+                }
+            }
+
         }
 
         // when player loses game
@@ -289,31 +303,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     private boolean hasLostGame() {
         for (GraphicsObject obj : this.enemyProjectiles) {
-            boolean projAtX = false;
-            boolean projAtY = false;
-            int debug_X = 0;
-            int debug_y = 0;
-            // x_hitbox
-            for (int player_x : x_hitbox) {
-                // detects if player model gets hit by projectile
-                if (obj.x  + obj.getWidth() == player_x || obj.x == player_x) {
-                    //System.out.println("reached at x: " + player_x);
-                    debug_X = obj.x;
-                    projAtX = true;
-                }
-            }
-            // y_hitbox
-            for (int player_y : y_hitbox) {
-                // detects if player model gets hit by projectile
-                if (obj.y  + obj.getWidth() == player_y || obj.y == player_y) {
-                    //System.out.println("reached at y: " + player_y);
-                    debug_y = obj.y;
-                    projAtY = true;
-                }
-            }
-            if (projAtX == true && projAtY == true) {
-                System.out.println("reached at x: " + debug_X);
-                System.out.println("reached at y: " + debug_y);
+            if (player.getBoundingBox().contains(obj.x, obj.y)) {
                 return true;
             }
         }
@@ -344,6 +334,11 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
             //enemy projectiles
             for (GraphicsObject obj : this.enemyProjectiles) {
+                obj.draw(g);
+            }
+
+            //player projectiles
+            for (GraphicsObject obj : this.playerProjectiles) {
                 obj.draw(g);
             }
         }
