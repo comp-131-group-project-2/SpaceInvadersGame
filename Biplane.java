@@ -1,9 +1,8 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Random;
 
 public class Biplane extends GraphicsObject {
 
@@ -16,6 +15,10 @@ public class Biplane extends GraphicsObject {
         super(x, y);
         this.width = 40;
         this.height = 32;
+
+        // hitbox
+        BoundingBox = new Rectangle(x, y, width, height);
+
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
         super.speed_x = 7;
@@ -28,18 +31,28 @@ public class Biplane extends GraphicsObject {
         }
     }
 
+    public Rectangle getBoundingBox() { return BoundingBox; }
+
     public void draw(Graphics g) {
         if (image != null) {
             g.drawImage(image, this.x, this.y, null);
         }
     }
 
-    public void update(int pic_width, int pic_height, int frame) {
-        // make biplanes bounce off the side of the window
+    public void update(int pic_width, int pic_height, int frame){
+        // make biplanes stay in the window and descend
         if (this.x < 0 || this.x + this.width > pic_width) {
-            super.speed_x = -super.speed_x;
+            this.speed_x = -this.speed_x;
             this.y += 32;
         }
+        if (this.y + this.height > pic_height) {
+            //game ends
+        }
+
+        // keep biplane's hitbox with biplane as it moves
+        BoundingBox.x = this.x;
+        BoundingBox.y = this.y;
+
         // let the superclass' update function handle the actual change to x and y
         super.update(pic_width, pic_height, frame);
     }
