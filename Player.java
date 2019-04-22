@@ -1,6 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -16,6 +14,10 @@ public class Player extends GraphicsObject {
         super(x, y);
         this.width = 40;
         this.height = 32;
+
+        // hitbox
+        BoundingBox = new Rectangle(x, y, width, height);
+
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
         super.speed_x = 0;
@@ -34,12 +36,35 @@ public class Player extends GraphicsObject {
         }
     }
 
+    public void moveRight(){
+        if(x < 1235){
+            x = x + 5;
+        }
+    }
+
+    public void moveLeft(){
+        if(x > 5){
+            x = x - 5;
+        }
+    }
+
     public int getWidth() {
         return this.width;
     }
-
     public int getHeight() {
         return this.height;
+    }
+
+    public Rectangle getBoundingBox() { return BoundingBox; }
+    public void moveRight(){
+        if(x < 1235){
+            x += 5;
+        }
+    }
+    public void moveLeft(){
+        if(x > 5){
+            x -= 5;
+        }
     }
 
     public void update(int pic_width, int pic_height, int frame) {
@@ -47,6 +72,11 @@ public class Player extends GraphicsObject {
         if (this.x < 0 || this.x + this.width > pic_width) {
 
         }
+
+        // hitbox moves with player
+        BoundingBox.x = this.x;
+        BoundingBox.y = this.y;
+
         // let the superclass' update function handle the actual change to x and y
         super.update(pic_width, pic_height, frame);
     }

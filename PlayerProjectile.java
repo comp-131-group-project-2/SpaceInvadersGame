@@ -3,14 +3,14 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-public class BiplaneProjectile extends GraphicsObject {
+public class PlayerProjectile extends GraphicsObject {
 
     //image size is 40x32px
     Image image;
     int width;
     int height;
 
-    public BiplaneProjectile(int x, int y) {
+    public PlayerProjectile(int x, int y) {
         super(x, y);
         this.width = 8;
         this.height = 2;
@@ -21,9 +21,9 @@ public class BiplaneProjectile extends GraphicsObject {
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
         super.speed_x = 0;
-        super.speed_y = 10;
+        super.speed_y = -12;
         try {
-            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/68c54ed9-6341-11e9-b33c-47f6622059b4.gif");
+            URL url = new URL("https://piskel-imgstore-b.appspot.com/img/8bf06259-64a4-11e9-ba8f-470f5731b29a.gif");
             image = ImageIO.read(url);
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,6 +34,7 @@ public class BiplaneProjectile extends GraphicsObject {
         return height;
     }
     public int getWidth() { return width; }
+
     public Rectangle getBoundingBox() { return BoundingBox; }
 
     public void draw(Graphics g) {

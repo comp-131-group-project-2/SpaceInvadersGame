@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class GraphicsObject {
 
@@ -7,6 +6,7 @@ public class GraphicsObject {
     int y;
     int speed_x;
     int speed_y;
+    Rectangle BoundingBox;
 
     public GraphicsObject(int x, int y) {
         this.x = x;
@@ -26,6 +26,16 @@ public class GraphicsObject {
     public int getWidth() {
         return 0;
     }
+    public Rectangle getBoundingBox() {
+        return BoundingBox;
+    }
+    // initializing move right
+    public void moveRight() {
+    }
+    // initializing move left
+    public void moveLeft() {
+    }
+
 
     /* Draw the object
      *
@@ -35,6 +45,14 @@ public class GraphicsObject {
      * @param g The Graphics for the JPanel
      */
     public void draw(Graphics g) {
+    }
+
+    // initializing move right
+    public void moveRight() {
+    }
+
+    // initializing move left
+    public void moveLeft() {
     }
 
     /* Update the object's location based on its speed
