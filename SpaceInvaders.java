@@ -220,9 +220,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            // FIXME what happens when left arrow is pressed
+            player.moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            // FIXME what happens when right arrow is pressed
+            player.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             // FIXME what happens when space bar is pressed
         }
@@ -231,7 +231,6 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     /* Update the game objects
      */
     private void update() {
-        System.out.println("is running: " + is_running);
         if (is_running == true) {
 
             //player
@@ -297,7 +296,6 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             for (int player_x : x_hitbox) {
                 // detects if player model gets hit by projectile
                 if (obj.x  + obj.getWidth() == player_x || obj.x == player_x) {
-                    //System.out.println("reached at x: " + player_x);
                     debug_X = obj.x;
                     projAtX = true;
                 }
@@ -312,8 +310,8 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                 }
             }
             if (projAtX == true && projAtY == true) {
-                System.out.println("reached at x: " + debug_X);
-                System.out.println("reached at y: " + debug_y);
+                //System.out.println("reached at x: " + debug_X);
+                //System.out.println("reached at y: " + debug_y);
                 return true;
             }
         }

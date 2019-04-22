@@ -34,6 +34,18 @@ public class Player extends GraphicsObject {
         }
     }
 
+    public void moveRight(){
+        if(x < 1235){
+            x = x + 5;
+        }
+    }
+
+    public void moveLeft(){
+        if(x > 5){
+            x = x - 5;
+        }
+    }
+
     public int getWidth() {
         return this.width;
     }
