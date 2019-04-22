@@ -21,3 +21,9 @@ https://piskel-imgstore-b.appspot.com/img/ec49355e-63ea-11e9-9c3e-5b22e230d208.g
 
 ENEMY EXPLOSION:
 https://piskel-imgstore-b.appspot.com/img/005f9b23-63ec-11e9-8a2d-b9a2ac6a6e50.gif
+
+CLOUD 1:
+https://piskel-imgstore-b.appspot.com/img/e4d51111-64af-11e9-8ce3-05c32167680e.gif
+
+CLOUD 2:
+https://piskel-imgstore-b.appspot.com/img/88fa62d1-64bb-11e9-ab1e-05c32167680e.gif
