@@ -45,6 +45,14 @@ public class GraphicsObject {
     public void draw(Graphics g) {
     }
 
+    // initializing move right
+    public void moveRight() {
+    }
+
+    // initializing move left
+    public void moveLeft() {
+    }
+
     /* Update the object's location based on its speed
      *
      * @param pic_width   The width of the drawing window

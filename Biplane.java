@@ -39,8 +39,8 @@ public class Biplane extends GraphicsObject {
         }
     }
 
-        // make biplanes stay in the window and descend
     public void update(int pic_width, int pic_height, int frame){
+        // make biplanes stay in the window and descend
         if (this.x < 0 || this.x + this.width > pic_width) {
             this.speed_x = -this.speed_x;
             this.y += 32;
