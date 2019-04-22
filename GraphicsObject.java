@@ -34,6 +34,8 @@ public class GraphicsObject {
     public int getHeight() {
         return 0;
     }
+
+    }
     public String getName() {
         return "GraphicsObject";
     }

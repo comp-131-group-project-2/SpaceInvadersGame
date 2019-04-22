@@ -47,6 +47,8 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     public ArrayList<GraphicsObject> youWin = new ArrayList();
     public ArrayList<GraphicsObject> gameOver = new ArrayList();
     public GraphicsObject player;
+    public ArrayList<GraphicsObject> clouds = new ArrayList();
+    public ArrayList<GraphicsObject> clouds2 = new ArrayList();
     public ArrayList<GraphicsObject> playerProjectiles = new ArrayList<>();
 
     // FIXME list your game objects here
@@ -55,6 +57,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
 
     /* Constructor for a Space Invaders game
      */
+
     public SpaceInvaders() {
         // fix the window size and background color
         this.canvasWidth = 1280;
@@ -90,6 +93,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         }
 
         // GAMESTATE
+        for (int i = 0; i <= 4; i++) {
+            this.clouds.add(new Cloud(((int) (Math.random() * canvasWidth)), ((int) (Math.random() * canvasHeight))));
+        }
+        for (int i = 0; i <= 2; i++) {
+            this.clouds2.add(new Cloud2(((int) (Math.random() * canvasWidth)), ((int) (Math.random() * canvasHeight))));
+        }
+
         // initialize the grid of biplanes
         for (int i = 0; i <= 8; i++) {
             // i*50 is x separation
@@ -235,7 +245,14 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         // System.out.println("is running: " + is_running);
         // while game is running
         if (is_running == true) {
-
+            // cloud
+            for (GraphicsObject obj : this.clouds) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+            }
+            //big cloud
+            for (GraphicsObject obj : this.clouds2) {
+                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
+            }
             //player
             player.update(this.canvasWidth, this.canvasHeight, this.frame);
 
@@ -340,6 +357,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     private void paintGameScreen(Graphics g) {
         if (is_running == true) {
+            //cloud
+            for (GraphicsObject obj : this.clouds) {
+                obj.draw(g);
+            }
+            for (GraphicsObject obj : this.clouds2) {
+                obj.draw(g);
+            }
             //player
             player.draw(g);
 
