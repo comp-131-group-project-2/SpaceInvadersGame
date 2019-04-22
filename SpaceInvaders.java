@@ -51,6 +51,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     public ArrayList<GraphicsObject> clouds2 = new ArrayList();
     public ArrayList<GraphicsObject> playerProjectiles = new ArrayList<>();
 
+    // enemy counter
+    public int enemyCounter;
+
     // FIXME list your game objects here
     // create a list of aliens with a loop
     // remove aliens if they are hit using the update function
@@ -100,6 +103,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             this.clouds2.add(new Cloud2(((int) (Math.random() * canvasWidth)), ((int) (Math.random() * canvasHeight))));
         }
 
+        enemyCounter = 124;
         // initialize the grid of biplanes
         for (int i = 0; i <= 8; i++) {
             // i*50 is x separation
@@ -131,7 +135,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         //enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
 
         // debug kill enemy bullet
-        playerProjectiles.add(new PlayerProjectile(400, 400));
+        //playerProjectiles.add(new PlayerProjectile(400, 400));
     }
 
     /* Start the game
@@ -235,7 +239,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             player.moveRight();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
+            this.playerProjectiles.add(new PlayerProjectile(player.x + 20, player.y));
         }
     }
 
@@ -285,8 +289,9 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
                     obj.y = canvasHeight;
                 }
                 for (GraphicsObject enemy : this.enemies) {
-                    if (enemy.getBoundingBox().contains(obj.x, obj.y)) {
+                    if ((enemy.getBoundingBox().contains(obj.x, obj.y)) && enemy.isAlive()) {
                         enemy.setAliveStatus(false);
+                        enemyCounter -= 1;
                         //EnemyisHit(obj);
                     }
                 }
@@ -341,11 +346,12 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      * @returns  true if the player has won, false otherwise
      */
     private boolean hasWonGame() {
-        for (GraphicsObject enemy : enemies) {
-            if (enemy.isAlive()) {
-                return false;
-            } else {
+        for (GraphicsObject obj : enemies) {
+            if (enemyCounter <= 0 && !obj.isAlive()) {
                 return true;
+            } else {
+                System.out.println(enemyCounter);
+                return false;
             }
         }
         return false;

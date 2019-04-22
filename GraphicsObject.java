@@ -35,7 +35,6 @@ public class GraphicsObject {
         return 0;
     }
 
-    }
     public String getName() {
         return "GraphicsObject";
     }
