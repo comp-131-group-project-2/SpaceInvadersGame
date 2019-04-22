@@ -34,5 +34,6 @@ public class BiplaneProjectile extends GraphicsObject {
     public int getWidth() { return width; }
 
     public void draw(Graphics g) {
+        g.drawImage(image, this.x, this.y, null);
     }
 }

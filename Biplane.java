@@ -1,9 +1,8 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Random;
 
 public class Biplane extends GraphicsObject {
 
@@ -30,6 +29,21 @@ public class Biplane extends GraphicsObject {
 
     public void draw(Graphics g) {
         if (image != null) {
+            g.drawImage(image, this.x, this.y, null);
         }
+    }
+
+    public void update(int pic_width, int pic_height, int frame){
+        // make ball bounce off the side of the window
+        if (this.x < 0 || this.x + this.width > pic_width) {
+            this.speed_x = -this.speed_x;
+            this.y += 32;
+        }
+        if (this.y + this.height > pic_height) {
+            //game ends
+        }
+
+        // let the superclass' update function handle the actual change to x and y
+        super.update(pic_width, pic_height, frame);
     }
 }
