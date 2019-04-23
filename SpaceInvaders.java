@@ -281,20 +281,21 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
             }
 
             //player projectiles
-            for (GraphicsObject obj : this.playerProjectiles) {
-                obj.update(this.canvasWidth, this.canvasHeight, this.frame);
-                if (obj.y < 0) {
-                    //if bullets exit the screen, hide them off screen
-                    obj.x = canvasWidth;
-                    obj.y = canvasHeight;
-                }
+            for (int objIndex = 0; objIndex < this.playerProjectiles.size(); objIndex++) {
+                this.playerProjectiles.get(objIndex).update(this.canvasWidth, this.canvasHeight, this.frame);
                 for (GraphicsObject enemy : this.enemies) {
-                    if ((enemy.getBoundingBox().contains(obj.x, obj.y)) && enemy.isAlive()) {
+                    if ((enemy.getBoundingBox().contains(playerProjectiles.get(objIndex).x, playerProjectiles.get(objIndex).y)) && enemy.isAlive()) {
                         enemy.setAliveStatus(false);
                         enemyCounter -= 1;
+                        playerProjectiles.get(objIndex).y = -2000;
                         //EnemyisHit(obj);
                     }
                 }
+                if (playerProjectiles.get(objIndex).y < -10) {
+                    //if bullets exit the screen, hide them off screen
+                    playerProjectiles.remove(objIndex);
+                }
+
             }
         }
 
@@ -347,7 +348,7 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
      */
     private boolean hasWonGame() {
         for (GraphicsObject obj : enemies) {
-            if (enemyCounter <= 0 && !obj.isAlive()) {
+            if (enemyCounter <= 79 && !obj.isAlive()) {
                 return true;
             } else {
                 System.out.println(enemyCounter);
