@@ -10,13 +10,11 @@ public class Biplane extends GraphicsObject {
     Image image;
     int width;
     int height;
-    boolean alive;
 
     public Biplane(int x, int y) {
         super(x, y);
         this.width = 40;
         this.height = 32;
-        this.alive = true;
 
         // hitbox
         BoundingBox = new Rectangle(x, y, width, height);
@@ -37,21 +35,10 @@ public class Biplane extends GraphicsObject {
     public int getX() {
         return this.x;
     }
-
     public int getY() {
         return this.y;
     }
-
-    public boolean isAlive() {
-        return this.alive;
-    }
-
-    public void setAliveStatus(boolean alive) {
-        this.alive = alive;
-    }
-
     public Rectangle getBoundingBox() { return BoundingBox; }
-
     public void draw(Graphics g) {
         if (image != null) {
             g.drawImage(image, this.x, this.y, null);
@@ -62,7 +49,7 @@ public class Biplane extends GraphicsObject {
         // make biplanes stay in the window and descend
         if (this.x < 0 || this.x + this.width > pic_width) {
             this.speed_x = -this.speed_x;
-            this.y += 32;
+            this.y += 72;
         }
         if (this.y + this.height > pic_height) {
             //game ends

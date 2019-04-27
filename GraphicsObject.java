@@ -15,26 +15,16 @@ public class GraphicsObject {
         this.speed_y = 0;
     }
 
-    public boolean isAlive() {
-        return true;
-    }
-
-    public void setAliveStatus(boolean alive) {
-
-    }
 
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
     public int getHeight() {
         return 0;
     }
-
     public String getName() {
         return "GraphicsObject";
     }
@@ -44,13 +34,8 @@ public class GraphicsObject {
     public Rectangle getBoundingBox() {
         return BoundingBox;
     }
-    // initializing move right
-    public void moveRight() {
-    }
-    // initializing move left
-    public void moveLeft() {
-    }
-
+    public void moveRight() { }
+    public void moveLeft() { }
 
     /* Draw the object
      *

@@ -34,7 +34,6 @@ public class BiplaneProjectile extends GraphicsObject {
     public int getX() {
         return this.x;
     }
-
     public int getY() {
         return this.y;
     }
