@@ -21,7 +21,7 @@ public class Biplane extends GraphicsObject {
 
         // for some reason, "super" instead of "this" works
         // this sets the initial speed
-        super.speed_x = 7;
+        super.speed_x = 6;
         super.speed_y = 0;
         try {
             URL url = new URL("https://piskel-imgstore-b.appspot.com/img/5b30d8a6-6204-11e9-bf18-ad8ec1d757c3.gif");
