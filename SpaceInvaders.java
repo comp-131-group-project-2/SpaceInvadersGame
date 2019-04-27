@@ -127,10 +127,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         player = new Player(canvasWidth/2, canvasHeight - (canvasHeight/5));
 
         // debug kill player bullet
-        //enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
+        // enemyProjectiles.add(new BiplaneProjectile(player.x + 5, player.y - 300));
 
         // debug kill enemy bullet
-        //playerProjectiles.add(new PlayerProjectile(400, 400));
+        // playerProjectiles.add(new PlayerProjectile(400, 400));
+
+        // debug enemy
+        // this.enemies.add(new Biplane(player.x - 300, player.y));
     }
 
     /* Start the game
@@ -343,7 +346,11 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
         }
         for (GraphicsObject obj : this.enemies) {
             if (obj.y >= this.canvasHeight) {
-                // if enemy biplanes reach the bottom of the screen, player loses
+                // if an enemy biplane reaches the bottom of the screen, player loses
+                return true;
+            }
+            if (obj.getBoundingBox().contains(player.x, player.y)) {
+                // if the player touches an enemy biplane, player loses
                 return true;
             }
         }
