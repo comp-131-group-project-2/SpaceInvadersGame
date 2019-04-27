@@ -337,6 +337,13 @@ public class SpaceInvaders extends JPanel implements ActionListener, KeyListener
     private boolean hasLostGame() {
         for (GraphicsObject obj : this.enemyProjectiles) {
             if (player.getBoundingBox().contains(obj.x, obj.y)) {
+                // if player is hit by an enemy projectile, player loses
+                return true;
+            }
+        }
+        for (GraphicsObject obj : this.enemies) {
+            if (obj.y >= this.canvasHeight) {
+                // if enemy biplanes reach the bottom of the screen, player loses
                 return true;
             }
         }
